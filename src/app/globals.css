@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #FFFDF9;
+    color: #2D2A32;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: #FFFDF9;
+    color: #2D2A32;
+    font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+  }
+
+  :where(a:any-link, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid #7C3AED;
+    outline-offset: 2px;
+  }
+}
+
+/* Native <dialog> scroll containment & cozy backdrop */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(45, 42, 50, 0.42);
+  backdrop-filter: blur(4px);
+}
+
+/* Visually hidden helper for skip-links & assistive context */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Accessible non-color selected tab indicator */
+[role="tab"] {
+  position: relative;
+}
+
+[role="tab"][aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 12px 2px;
+  border-block-end: 3px solid currentColor;
+  border-radius: 9999px;
+}
+
+/* 3D Flashcard flip helpers */
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Cozy subtle polka-dot surface texture */
+.bg-kawaii-dots {
+  background-image: radial-gradient(#F3ECE4 1.25px, transparent 1.25px);
+  background-size: 20px 20px;
+}

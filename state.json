@@ -1,0 +1,11 @@
+{
+  "currentStage": 4,
+  "completedStages": [0, 1, 2, 3, 4],
+  "cycles": {
+    "stage0": 1,
+    "stage1": 1,
+    "stage2": 1,
+    "stage3": 1,
+    "stage4": 1
+  }
+}
