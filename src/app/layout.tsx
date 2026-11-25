@@ -9,7 +9,7 @@ const nunito = Nunito({
   display: "swap",
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-jakarta",
@@ -17,9 +17,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Cantinho de Estudos • DPC (FMC) — Aulas 13 e 14",
+  title: "Fisio da Sophia 💚 · Sprint 48h de Fisiologia Médica",
   description:
-    "Plataforma interativa e acolhedora para revisão de Delineamento da Pesquisa Científica (DPC • FMC): Publicações Científicas, Estrutura do Projeto, Formatação e Declaração de Uso de IA.",
+    "Plataforma interativa kawaii de revisão em 48 horas para a prova de Fisiologia Médica da Sophia: GI, Renal & Ácido-Base e Endócrino.",
 };
 
 export default function RootLayout({
@@ -30,15 +30,9 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${nunito.variable} ${plusJakartaSans.variable}`}
+      className={`${nunito.variable} ${plusJakarta.variable}`}
     >
-      <body className="min-h-screen bg-canvas bg-kawaii-dots text-ink antialiased selection:bg-blush-soft selection:text-blush-ink">
-        <a
-          href="#conteudo-principal"
-          className="visually-hidden fixed left-4 top-4 z-50 rounded-xl bg-lavender px-4 py-2 text-sm font-bold text-white shadow-lg"
-        >
-          Pular para o conteúdo principal
-        </a>
+      <body className="font-sans bg-canvas text-ink antialiased overflow-x-clip selection:bg-rose-mimo-soft selection:text-rose-mimo-ink">
         {children}
       </body>
     </html>

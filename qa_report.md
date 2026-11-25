@@ -1,98 +1,65 @@
-# QA & Verification Report — `dpc-study-app`
+# QA Report — `fisio-sophia-app`
 
-**Date:** 2026-11-23  
-**Course:** Faculdade de Medicina de Campos (FMC) — DPC 2026.2 (Aula 13 & Aula 14)  
-**Stack:** Next.js 15.5.29 (App Router), React 19, TypeScript (`strict: true`), Tailwind CSS 3, Framer Motion, Lucide React  
-
----
-
-## 1. Automated Build, Type & Lint Checks
-
-| Check | Command | Result |
-|---|---|---|
-| TypeScript strict check | `npx tsc --noEmit` | **PASS** (0 errors) |
-| ESLint check | `npm run lint` | **PASS** (`No ESLint warnings or errors`) |
-| Production build | `npm run build` | **PASS** (Static pages generated 4/4, Route `/` 77.1 kB / 180 kB First Load JS) |
-| Production SSR smoke test | `npx next start -p 3099` + HTTP GET | **PASS** (HTTP 200, `lang="pt-BR"`, title, 3 tabs, and comfort CTA rendered) |
+**Data de Auditoria:** 2026-11-25  
+**Escopo:** Plataforma interativa 48h de Fisiologia Médica para **Sophia** (PT-BR, nível Guyton & Hall / Silverthorn).  
+**Status Final:** ✅ **APROVADO EM TODOS OS GATES (Stages 0–4)**
 
 ---
 
-## 2. Factual Content Audit (`src/data/dpc-content.ts`)
+## 1. Resultados da Suíte de Verificação (pós-última edição)
 
-Audited line-by-line against `PDF1.pdf` (Aula 13) and `PDF2.pdf` (Aula 14):
-
-### Aula 13 — Publicações Científicas (Prof. Inêz Barcellos de Andrade)
-- **Conceito, 4 objetivos e 5 competências:** Verified exact match.
-- **5 Tipos de Publicação:** Artigo Original, Revisões (Narrativas, Integrativas, Sistemáticas / Meta-análises), Relato de Caso, Estudos Clínicos e Epidemiológicos (Observacionais: Transversal, Caso-controle, Coorte; Experimentais: Ensaios clínicos), Literatura Cinzenta.
-- **Pirâmide da Hierarquia das Evidências (8 níveis):**
-  - 8 (Topo) Meta-análises → 7 Revisões Sistemáticas → 6 Ensaios Clínicos → 5 Estudos de Coorte → 4 Estudos Caso-Controle → 3 Estudos Transversais → 2 Relato de Caso → 1 (Base) Opiniões de Especialistas.
-- **Bases Científicas & Operadores Booleanos:**
-  - PubMed (Global · Saúde), BVS (Regional · Saúde), SciELO e BDTD (Regional · Multidisciplinar), Google Acadêmico, Scopus e Web of Science (Global · Multidisciplinar).
-  - `AND`, `OR`, `NOT`, `Aspas ("" ou '')` + class example `('skin aging') AND ('aesthetic treatment') AND (adults)` vs `estética facial`.
-- **Seleção de Periódicos, Métricas & Triagem:**
-  - 5 Pilares (Objetivo, Escopo — desalinhamento de escopo = principal causa de rejeição, Qualidade, Integridade, Custos [APC] e Tempo).
-  - Métricas: Indexação ("vitrine"), Fator de Impacto e CiteScore, Quartis Q1–Q4 (Q1 = top 25% mais citados), Índice H.
-  - 4 Sinais Verdes, 4 Alertas Vermelhos, Regra de ouro: *"Pesquisadores da sua área leem este periódico? Se não leem, evite submeter."*
-- **Estratégia Prática de Submissão:**
-  - Engenharia Reversa (Método de 5 Minutos, 4 passos), Fluxo de 4 Filtros, Planos A (Ambicioso Q1), B (Equilibrado nacional indexada) e C (Segurança regional/anais), Checklist Anti-Retrabalho (4 itens) e Síntese final (*"A publicação não é o fim da pesquisa, é o início do impacto."*).
-
-### Aula 14 — Estrutura do Projeto, Formatação e Declaração de Uso de IA (17.11.26, Prof. Inez Barcellos de Andrade)
-- **Elementos Constitutivos (3 grupos):**
-  - Pré-textuais: Capa, Folha de rosto, Folha de aprovação, Resumo, Sumário.
-  - Textuais: `1 INTRODUÇÃO`, `2 REFERENCIAL TEÓRICO`, `3 MÉTODO`, `4 RESULTADOS ESPERADOS`, `5 PRODUÇÃO ESPERADA`, `6 CRONOGRAMA DE EXECUÇÃO EM MESES CORRIDOS`, `7 ORÇAMENTO`, `8 INFRAESTRUTURA`.
-  - Pós-textuais: `DECLARAÇÃO DE USO DE IA (INTELIGÊNCIA ARTIFICIAL)`, `REFERÊNCIAS`, `APÊNDICES`, `ANEXOS`.
-- **Padrões de Formatação:**
-  - Espaçamento: `1,5` corpo do texto; `1,0` em citações diretas longas, resumo e `REFERÊNCIAS` (com dois espaços simples entre cada documento).
-  - Tipo de letra: `Arial`, `Times New Roman` ou `Calibre` (uniformidade tipográfica).
-  - Tamanho da letra: `12` geral; `18 (negrito)` título do projeto; `14` nomes dos autores; `10` citação direta longa e resumo.
-  - Margens: `3 cm` (esquerda e superior) e `2 cm` (direita e inferior).
-- **Hierarquia dos Títulos das Seções:**
-  - Primária: Negrito, maiúsculas (`3 MÉTODO`)
-  - Secundária: Negrito, minúsculas (`3.1 Desenho`, `3.2 População`)
-  - Terciária: Minúsculas sem negrito (`3.2.1 Número de indivíduos abordados (amostra do estudo)`, `3.2.2 Variáveis do estudo`)
-  - Quaternária: *Itálico* (*`3.2.2.1 Dependentes`*, *`3.2.2.2 Independentes`*, *`3.2.2.3 Controle`*)
-- **Declaração de Uso de IA:**
-  - Posicionada nos pós-textuais, **imediatamente antes das REFERÊNCIAS**.
-  - Modelo completo com `ChatGPT`, `Semantic Scholar e SciSpace`, e `Claude`.
-
-### Study Assets Count
-- Flashcards: **16** (8 Aula 13 + 8 Aula 14)
-- Quiz questions: **16** (8 Aula 13 + 8 Aula 14)
-- Mimo messages: **8** (PT-BR)
-- Kawaii Mascots (`src/components/mascots/KawaiiMascots.tsx`): **4** (`BunnyDoctor`, `BearNurse`, `CatResearcher`, `PuppyIntern`), each with `viewBox="0 0 120 120"` and reactive moods (`happy`, `cheering`, `thinking`, `love`).
+| Verificação | Comando | Resultado | Observações |
+|---|---|---|---|
+| Conteúdo, Links & Higiene | `node scripts/verify-content.mjs` | ✅ **PASSOU (exit 0)** | 3 trilhas, 14 tópicos (5 GI, 3 Renal, 6 Endócrino), 4–6 `keyConcepts`/tópico, 42 flashcards, 28 questões, 4 SVGs (`viewBox="0 0 120 120"`), 10 notas do Pietro, 0 URLs `watch?v=`/`youtu.be/`, 0 vestígios legados |
+| Tipagem Estrita (`strict: true`) | `npx tsc --noEmit` | ✅ **PASSOU (exit 0)** | Zero erros TypeScript |
+| Linter & Core Web Vitals | `npm run lint` | ✅ **PASSOU (exit 0)** | `✔ No ESLint warnings or errors` |
+| Build de Produção (Next.js 15) | `npm run build` | ✅ **PASSOU (exit 0)** | Rota `/` estática (`117 kB` / `220 kB` First Load JS), compilação em `6.6s` |
+| Smoke Test SSR Produção | `next start -p 3099` → HTTP GET | ✅ **PASSOU (HTTP 200)** | HTML `125359` bytes contendo `Sophia`, `Fisiologia` e `Feito com todo amor pelo Pietro` |
 
 ---
 
-## 3. WCAG AA Contrast & Accessibility Audit
+## 2. Inventário Médico & Funcional Auditado
 
-All interactive and readable text/background pairs verified >= 4.5:1:
-- `#2D2A32` on `#FFFDF9`: **13.88:1**
-- `#5C5566` on `#FFFDF9`: **7.02:1**
-- `#FFFFFF` on `#047857` (`mint-deep` solid buttons): **5.48:1**
-- `#065F46` (`mint-ink`) on `#D1FAE5` (`mint-soft`): **6.78:1**
-- `#FFFFFF` on `#DB2777` (`blush` solid buttons): **4.60:1**
-- `#9D174D` (`blush-ink`) on `#FCE7F3` (`blush-soft`): **6.71:1**
-- `#FFFFFF` on `#7C3AED` (`lavender` solid buttons): **5.70:1**
-- `#5B21B6` (`lavender-ink`) on `#EDE9FE` (`lavender-soft`): **7.57:1**
-- `#FFFFFF` on `#DC2626` (`danger` solid buttons): **4.83:1**
-- `#B91C1C` (`danger-ink`) on `#FEE2E2` (`danger-soft`): **5.30:1**
-
-Accessibility & motion compliance:
-- `useSafeMotion()` wraps `useReducedMotion()` and disables 3D rotations/bounces/floating animations when `prefers-reduced-motion` is enabled.
-- Native `<dialog>` (`showModal()`, `closedby="any"` + pointer-bounds light-dismiss fallback, CSS `overscroll-behavior: contain` on `dialog:modal` and `overflow: hidden; overscroll-behavior: contain` on `dialog::backdrop`).
-- Single-row accessible `Tabs` (`role="tablist"`, `role="tab"`, `aria-selected`, arrow/Home/End navigation, `border-block-end` non-color indicator).
-- Hydration-safe `localStorage` hook (`useStudyProgress.ts`) with SSR defaults populated inside `useEffect`.
+- **Trilha 1 — Fisiologia Gastrointestinal (5 tópicos, Dia 1):**
+  1. `gi-01-secrecoes`: Secreção Salivar, Gástrica e Pancreática
+  2. `gi-02-degluticao-motilidade`: Deglutição e Motilidade Gastrointestinal
+  3. `gi-03-reflexos-gi`: Reflexos Gastrintestinais
+  4. `gi-04-digestao-absorcao`: Digestão e Absorção
+  5. `gi-05-figado-vias-biliares`: Fígado e Vias Biliares
+- **Trilha 2 — Fisiologia Renal e Equilíbrio Ácido-Base (3 tópicos, Dia 1):**
+  6. `renal-01-filtracao-tubulos`: Fisiologia Renal I (filtração glomerular, Starling, TFG, autorregulação, SRAA, TCP, clearance)
+  7. `renal-02-concentracao-miccao`: Fisiologia Renal II (contracorrente, NKCC2, vasa recta, ADH/AQP2, aldosterona, reflexo de micção)
+  8. `renal-03-acido-base`: Equilíbrio Ácido-Base (Henderson-Hasselbalch, 3 linhas de defesa, Fórmula de Winter, Ânion Gap)
+- **Trilha 3 — Fisiologia Endócrina / Hormonal (6 tópicos, Dia 2):**
+  9. `endo-01-hipotalamo-hipofise`: Eixo hipotálamo-hipofisário
+  10. `endo-02-tireoide-paratireoide`: Tireoide e paratireoide
+  11. `endo-03-pancreas-adrenal`: Pâncreas endócrino e adrenal
+  12. `endo-04-hormonal-masculina`: Fisiologia hormonal masculina
+  13. `endo-05-hormonal-feminina`: Fisiologia hormonal feminina
+  14. `endo-06-gravidez-lactacao`: Gravidez, parto e lactação
+- **Bancos de Estudo:** 42 Flashcards 3D (3/tópico) + 28 Questões clínicas/mecanísticas (2/tópico) com modos *Treino Comentado* e *Prova Real*.
+- **3 Mini-Labs Interativos + Revisão Relâmpago (5 min):**
+  - `GasometriaLab`: sliders `pH`, `PaCO2`, `HCO3−`, `Na+`, `Cl−`, presets clínicos, Fórmula de Winter e Ânion Gap sem `NaN`.
+  - `NefronLab`: SVG interativo (`viewBox="0 0 640 340"`) com 5 segmentos clicáveis + botões sincronizados.
+  - `EixosLab`: 4 eixos (HPT, HPA, HPG masculino, HPG feminino com *Virada do Feedback Positivo / Ovulação*).
+  - `QuickReviewCheatSheet`: 3 painéis sanfonados para revisão rápida pré-prova.
+- **4 Mascotes SVG Animados (`AnimatedMascots.tsx`):** `DrCoelhinho`, `DraUrsinha`, `GatinhaEndocrino`, `CachorrinhoMimo`.
+- **Persistência:** `localStorage` sob namespace `fisio_sophia_v1` com guarda `mounted` para evitar mismatch de hidratação SSR.
 
 ---
 
-## 4. Responsive & Defect Notes
+## 3. Responsividade, Acessibilidade & Motion
 
-- **Mobile (390px) & Tablet (768px) & Desktop (1440px):**
-  - Body sets `overflow-x: clip`.
-  - Pyramid buttons clamp to `min-w-[190px] max-w-full`.
-  - Formatting reference table wraps in `overflow-x-auto`.
-  - Main navigation tabs remain on a single horizontally scrollable row without wrapping.
-- **Defects Resolved During QA:**
-  1. Removed `@typescript-eslint/no-unused-vars` warning on `DialogHTMLAttributes<T>` in `src/types/html.d.ts`.
-  2. Replaced block `<div>` descendants inside `<motion.button>` in `src/components/study/FlashcardsTab.tsx` with phrasing `<span>` elements for strict HTML5 validity.
-  3. Moved `<Tabs>` out of `<nav>` into `<main>` in `src/app/page.tsx` so in-page tablist semantics follow `tabs` guidance.
+- **Viewports (`390px`, `768px`, `1440px`):** `overflow-x-clip` no `<body>`, grids responsivos (`grid-cols-1 md:grid-cols-2 / lg:grid-cols-12`), SVGs com `viewBox` escaláveis e tabs em grade 2×2 no mobile sem estouro horizontal.
+- **Contraste WCAG AA (>= 4.5:1):** pares validados em `tailwind.config.ts` (`#047857` / `#065F46` sobre `#D1FAE5`, `#0369A1` / `#075985` sobre `#E0F2FE`, `#6D28D9` / `#5B21B6` sobre `#EDE9FE`, `#BE185D` / `#9D174D` sobre `#FCE7F3`, `#92400E` sobre `#FEF3C7`, `#26232B` / `#575061` sobre `#FFFDF9`/`#FFFFFF`).
+- **Motion & WCAG 2.2.2:** `useReducedMotion()` integrado em `src/lib/motion.ts` (`useSafeMotion`) + botão explícito de pausar/ativar animações no cabeçalho sem `aria-pressed` quando o rótulo alterna.
+- **Native `<dialog>`:** modais (`TopicModal`, `ComfortButtonAndModal`, modal de reset) usam `showModal()`, `closedby="any"` com fallback `pointerdown`/`pointerup` para Safari, `overscroll-behavior: contain` e `overflow: hidden` em `dialog::backdrop`.
+
+---
+
+## 4. Defeitos Encontrados e Corrigidos Durante o QA
+
+1. **JSX em arquivo `.ts` (`src/lib/motion.ts`):** uso de `<MotionPreferenceContext.Provider>` em arquivo `.ts` causou erro `TS1005` na Gate 2. **Correção:** substituído por `React.createElement(MotionPreferenceContext.Provider, ...)`.
+2. **Contagem estrita de `keyConcepts` (4–6 por tópico):** tópicos #12 (`endo-04-hormonal-masculina`) e #13 (`endo-05-hormonal-feminina`) possuíam 3 blocos cada. **Correção:** adicionado o 4º bloco médico estruturado em ambos (`src/data/physiology-tracks.ts`) e endurecida a asserção em `scripts/verify-content.mjs` (`>= 4 && <= 6`).
+3. **Fluxo "Refazer só as que errei" (`src/components/study/QuizView.tsx`):** limpar `quizAnswers` e retornar para `scope="all"` fazia o usuário refazer todas as questões ao invés de filtrar apenas as erradas. **Correção:** adicionado estado `retryIds` preservando exatamente o subconjunto errado enquanto `quizAnswers` é limpo para re-tentativa.
+4. **Acessibilidade mobile no cabeçalho (`src/components/study/FisioStudioApp.tsx`):** botões compactos de pausar animações e resetar progresso ocultavam texto em `390px` (`hidden sm:inline`). **Correção:** adicionados atributos `aria-label` explícitos em ambos os botões.
